@@ -1,0 +1,60 @@
+if (lifes)
+				{
+					if (!enemy)
+					{
+						if (!LEnemy[spot].alive)
+						{
+							spot = rand() % 8;
+							//spot = 0;
+							LEnemy[spot].alive = true;
+						}
+						if(i + speed > 255)
+						{
+							i = 255;
+							LEnemy[spot].setAlpha(i);
+						}
+						else if (i + speed <= 255)
+						{
+							i += speed;
+							LEnemy[spot].setAlpha(i);
+						}
+						if(i == 255)
+						{
+							enemy = true;
+							Startime = SDL_GetTicks();
+						}
+					}
+					else
+					{
+						if (LEnemy[spot].shot && LEnemy[spot].alive && i > 0)
+						{
+							if (i - speed >= 0)
+								i -= speed;
+							else
+								i = 0;
+							LEnemy[spot].setAlpha(i);
+						}
+						else if (SDL_GetTicks() - Startime > timeGap)
+						{
+							Startime = SDL_GetTicks();
+							if (lifes > 0);
+							--lifes;
+						}
+						else if (!i)
+						{
+							enemy = false;
+							LEnemy[spot].shot = LEnemy[spot].alive = false;
+							++kills;
+							
+							if (!(kills % 7))
+							{
+								if(speed < 255)
+									speed += 15;
+								if(timeGap > 400)
+									timeGap -= 300;
+								/*if (timeGap == 100)
+								{
+									 timeGap += 250;
+								}*/
+							}
+						}
